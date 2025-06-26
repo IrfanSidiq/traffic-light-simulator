@@ -1,0 +1,106 @@
+.container {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f1e1;
+  border-radius: 10px;
+  display: inline-block;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.title {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-weight: bold;
+}
+
+.checkboxWrapper {
+  margin-bottom: 25px;
+}
+
+.checkboxLabel {
+  font-size: 0.9em;
+  color: #555;
+  cursor: pointer;
+}
+
+.checkboxInput {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.lightCasing {
+  display: inline-block;
+  background-color: #282c34;
+  padding: 20px 15px 10px 15px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.light {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin: 0 auto 15px auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.timerContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.timerDisplay {
+  font-size: 2.8em;
+  font-weight: bold;
+  margin-top: 25px;
+  margin-bottom: 8px;
+  min-height: 1.2em;
+  transition: color 0.3s ease-in-out;
+  background-color: #d9c5ad;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.statusDisplay {
+  font-size: 1em;
+  color: #666;
+  min-height: 2.4em;
+  margin-bottom: 25px;
+  line-height: 1.4em;
+}
+
+.controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.button {
+  min-width: 110px;
+  padding: 12px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s;
+}
+
+.startButton {
+  background-color: #4caf50;
+}
+
+.startButton:hover {
+  background-color: #45a049;
+}
+
+.resetButton {
+  background-color: #f44336;
+}
+
+.resetButton:hover {
+  background-color: #e53935;
+}
