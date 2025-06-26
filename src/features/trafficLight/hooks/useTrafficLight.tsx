@@ -8,6 +8,8 @@ export function useTrafficLight() {
     const [timeLeft, setTimeLeft] = useState<number>(INITIAL_DURATION);
     const [fsmStatus, setFsmStatus] = useState<FSMState>('idle');
 
+    const intervalRef = useRef<number | null>(null);
+
     // Function for changing lights
     const advanceLight = useCallback(() => {
         setCurrentLight(prevLight => {
@@ -19,6 +21,7 @@ export function useTrafficLight() {
 
     // Function for handling time countdown
     const handleTick = useCallback(() => {
+        console.log(`[Tick] ${new Date().toISOString()}`);
         setTimeLeft(prevTimeLeft => {
             if (prevTimeLeft > 1) {
                 return prevTimeLeft - 1;
@@ -29,19 +32,6 @@ export function useTrafficLight() {
             }
         });
     }, [advanceLight]);
-
-
-    useEffect(() => {
-        if (fsmStatus !== 'running') return;
-
-        const intervalId = setInterval(() => {
-            if (fsmStatus === 'running') {
-                handleTick();
-            }
-        }, 1000);
-
-        return () => clearInterval(intervalId);
-    }, [fsmStatus, handleTick]);
 
     // Function for handling start/pause/resume
     const handleStartPause = useCallback(() => {
@@ -63,6 +53,27 @@ export function useTrafficLight() {
         setCurrentLight(INITIAL_LIGHT);
         setTimeLeft(INITIAL_DURATION);
     }, []);
+
+
+    // Resets interval everytime fsmStatus changes
+    useEffect(() => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+        }
+
+        if (fsmStatus === 'running') {
+            intervalRef.current = setInterval(handleTick, 1000);
+        }
+
+        // Proper cleanup
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
+        };
+    }, [fsmStatus, handleTick]);
 
     return {
         currentLight,

@@ -1,4 +1,5 @@
 import { TrafficLight } from "@/components/TrafficLight";
+// import { TrafficLightTest } from "./features/trafficLight";
 import '@/App.css';
 
 
