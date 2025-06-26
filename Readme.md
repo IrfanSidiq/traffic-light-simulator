@@ -1,8 +1,14 @@
 # Traffic Light Simulation
-A simple traffic light UI built with react
+A simple traffic light UI built with React
+
+![Traffic Light](./docs/traffic-light-demo.gif)
+
+## Documentation
+Documentation of the program can be found **here**:
+📄 [Simple Traffic Light Documentation (PDF)](./docs/simple-traffic-light-documentation.pdf)
 
 ## Requirement:
--> NodeJs >= 18
+- NodeJs >= 18
 
 ## How to Run:
 -> npm i
@@ -27,8 +33,3 @@ A simple traffic light UI built with react
 * **Timer Management**: Proper timer cleanup, pauses, and resuming.
 * **Scalability**: Adding new states (e.g., pedestrian light) should be easy.
 * **Code Clarity**: Clean code, proper abstractions, and comments.
-
-## More Likely Behavior can be looked like this
-![Traffic Light](./docs/traffic-light.gif)
-# Good Luck Guys
-
