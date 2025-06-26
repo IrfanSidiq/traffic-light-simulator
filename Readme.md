@@ -1,5 +1,5 @@
 # Traffic Light Simulation
-a simple traffic light UI built by react
+A simple traffic light UI built with react
 
 ## Requirement:
 -> NodeJs >= 18

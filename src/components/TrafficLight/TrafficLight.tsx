@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { useTrafficLight, TRAFFIC_LIGHT_CONFIG, LIGHT_DISPLAY_ORDER } from '../../features/trafficLight';
+import { useTrafficLight, TRAFFIC_LIGHT_CONFIG, LIGHT_DISPLAY_ORDER } from '@/features/trafficLight';
 import styles from './TrafficLight.module.css';
 
 
 export function TrafficLight() {
-  const [useRAF, setUseRAF] = useState<boolean>(false);
-  const { currentLight, secondsLeft, fsmStatus, actions } = useTrafficLight(useRAF);
+  const { currentLight, secondsLeft, fsmStatus, actions } = useTrafficLight();
   
   const getButtonLabel = () => {
     if (fsmStatus === 'idle') return 'Start';
@@ -18,24 +17,6 @@ export function TrafficLight() {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Traffic Light Simulation</h2>
-
-      <div className={styles.checkboxWrapper}>
-        <label className={styles.checkboxLabel}>
-          <input
-            type="checkbox"
-            className={styles.checkboxInput}
-            checked={useRAF}
-            onChange={(e) => {
-              const newUseRAF = e.target.checked;
-              if (fsmStatus !== 'idle') {
-                actions.reset();
-              }
-              setUseRAF(newUseRAF);
-            }}
-          />
-          Use requestAnimationFrame (smoother timer, lag handling)
-        </label>
-      </div>
 
       <div className={styles.lightCasing}>
         {LIGHT_DISPLAY_ORDER.map((lightToDisplay) => (

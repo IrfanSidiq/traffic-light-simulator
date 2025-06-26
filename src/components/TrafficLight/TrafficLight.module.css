@@ -14,21 +14,6 @@
   font-weight: bold;
 }
 
-.checkboxWrapper {
-  margin-bottom: 25px;
-}
-
-.checkboxLabel {
-  font-size: 0.9em;
-  color: #555;
-  cursor: pointer;
-}
-
-.checkboxInput {
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
 .lightCasing {
   display: inline-block;
   background-color: #282c34;

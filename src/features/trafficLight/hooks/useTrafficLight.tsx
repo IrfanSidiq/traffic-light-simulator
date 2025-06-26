@@ -3,14 +3,10 @@ import { TRAFFIC_LIGHT_CONFIG, INITIAL_LIGHT, INITIAL_DURATION } from '@/feature
 import { FSMState, TrafficLightColor } from '@/features/trafficLight/types/TrafficLight.types';
 
 
-export function useTrafficLight(useRAF = false) {
+export function useTrafficLight() {
     const [currentLight, setCurrentLight] = useState<TrafficLightColor>(INITIAL_LIGHT);
     const [timeLeft, setTimeLeft] = useState<number>(INITIAL_DURATION);
     const [fsmStatus, setFsmStatus] = useState<FSMState>('idle');
-
-    const rafId = useRef<number | null>(null);
-    const lastTickTime = useRef<number>(0);
-    const accumulatedDelta = useRef<number>(0);
 
     // Function for changing lights
     const advanceLight = useCallback(() => {
@@ -36,66 +32,16 @@ export function useTrafficLight(useRAF = false) {
 
 
     useEffect(() => {
-        // Stop RAF if traffic light is not running (paused/stopped)
-        if (fsmStatus !== 'running') {
-            if (useRAF && rafId.current) {
-                cancelAnimationFrame(rafId.current);
-                rafId.current = null;
+        if (fsmStatus !== 'running') return;
+
+        const intervalId = setInterval(() => {
+            if (fsmStatus === 'running') {
+                handleTick();
             }
-            return;
-        }
+        }, 1000);
 
-        if (useRAF) {
-            const tickLoop = (timestamp: number) => {
-                if (fsmStatus !== 'running') {
-                    if (rafId.current) cancelAnimationFrame(rafId.current)
-                    rafId.current = null;
-                    return;
-                }
-
-                if (!lastTickTime.current) {
-                    lastTickTime.current = timestamp;
-                }
-
-                accumulatedDelta.current += timestamp - lastTickTime.current;
-                lastTickTime.current = timestamp;
-
-                // While accumulated time difference is greater than 1 second, decrease time left
-                while (accumulatedDelta.current >= 1000) {
-                    if (fsmStatus != 'running') break;
-                    handleTick();
-                    accumulatedDelta.current -= 1000;
-                }
-
-                // Schedule tickLoop for next frame
-                if (fsmStatus === 'running') {
-                    rafId.current = requestAnimationFrame(tickLoop);
-                }
-                else {
-                    if (rafId.current) cancelAnimationFrame(rafId.current);
-                    rafId.current = null;
-                }
-            };
-
-            // Initiate tickLoop
-            lastTickTime.current = performance.now();
-            accumulatedDelta.current = 0;
-            rafId.current = requestAnimationFrame(tickLoop);
-        }
-        else {
-            // If not using RAF, just use interval
-            const intervalId = setInterval(handleTick, 1000);
-            return () => clearInterval(intervalId);
-        }
-
-        return () => {
-            // Stop RAF on cleanup
-            if (useRAF && rafId.current) {
-                cancelAnimationFrame(rafId.current);
-                rafId.current = null;
-            }
-        };
-    }, [fsmStatus, useRAF, handleTick]);
+        return () => clearInterval(intervalId);
+    }, [fsmStatus, handleTick]);
 
     // Function for handling start/pause/resume
     const handleStartPause = useCallback(() => {
@@ -116,16 +62,7 @@ export function useTrafficLight(useRAF = false) {
         setFsmStatus('idle');
         setCurrentLight(INITIAL_LIGHT);
         setTimeLeft(INITIAL_DURATION);
-
-        if (useRAF) {
-            if (rafId.current) {
-                cancelAnimationFrame(rafId.current);
-                rafId.current = null;
-            }
-            lastTickTime.current = 0;
-            accumulatedDelta.current = 0;
-        }
-    }, [useRAF]);
+    }, []);
 
     return {
         currentLight,
